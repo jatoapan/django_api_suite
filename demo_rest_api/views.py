@@ -67,7 +67,7 @@ class DemoRestApi(APIView):
 class DemoRestApiItem(APIView):
     name = "Demo REST API Item"
     
-    def put(self, request, item_id):
+    def put(self, request, id):
         try:
             data = request.data
             
@@ -78,9 +78,9 @@ class DemoRestApiItem(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
             
             for i, item in enumerate(data_list):
-                if item['id'] == item_id:
+                if item['id'] == id:
                     new_item = {
-                        'id': item_id,
+                        'id': id,
                         'name': data['name'],
                         'email': data['email'],
                         'is_active': data.get('is_active', True)
@@ -100,7 +100,7 @@ class DemoRestApiItem(APIView):
                 'error': 'Error interno del servidor al actualizar elemento.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-    def patch(self, request, item_id):
+    def patch(self, request, id):
         try:
             data = request.data
             
@@ -110,7 +110,7 @@ class DemoRestApiItem(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
             
             for item in data_list:
-                if item['id'] == item_id:
+                if item['id'] == id:
                     for key, value in data.items():
                         if key != 'id':
                             item[key] = value
@@ -128,10 +128,10 @@ class DemoRestApiItem(APIView):
                 'error': 'Error interno del servidor al actualizar parcialmente elemento.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-    def delete(self, request, item_id):
+    def delete(self, request, id):
         try:
             for item in data_list:
-                if item['id'] == item_id:
+                if item['id'] == id:
                     if not item.get('is_active', True):
                         return Response({
                             'message': 'El elemento ya estaba eliminado.',
