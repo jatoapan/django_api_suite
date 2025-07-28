@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "homepage",
     "demo_rest_api",
+    "firebase_admin",
+    "landing_api",
 ]
 
 MIDDLEWARE = [
