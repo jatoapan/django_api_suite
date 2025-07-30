@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import firebase_admin
+from firebase_admin import credentials
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +28,9 @@ SECRET_KEY = 'django-insecure-1j=atc+lbt^dwj*n0gho3^n1pcob044lrs6o5-ot*49kgdc+!v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'nfiallo.pythonanywhere.com',
+]
 
 
 # Application definition
@@ -38,7 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'firebase_admin',
     'homepage',
+    'landing_api',
+    'demo_rest_api',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +132,17 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, STATIC_URL)
 ]
 
+STATIC_ROOT = 'assets/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Coloque la ruta relativa al archivo con la clave privada
+FIREBASE_CREDENTIALS_PATH = credentials.Certificate("secrets/landing-key.json")
+
+# Inicialice la conexión con el Realtime Database con la clave privada y la URL de referencia
+firebase_admin.initialize_app(FIREBASE_CREDENTIALS_PATH, {
+   'databaseURL': 'https://proyecto-kain-landing-page-default-rtdb.firebaseio.com/'
+})
