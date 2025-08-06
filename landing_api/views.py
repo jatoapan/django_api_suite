@@ -10,7 +10,7 @@ from firebase_admin import db
 
 class LandingAPI(APIView):
     name = "Landing API"
-    collection_name = "votes"
+    collection_name = "contact_messages"   
 
     def get(self, request):
         ref = db.reference(self.collection_name)
@@ -25,9 +25,9 @@ class LandingAPI(APIView):
       data = request.data
       # Referencia a la colección
       ref = db.reference(f'{self.collection_name}')
-      current_time  = datetime.now()
-      custom_format = current_time.strftime("%d/%m/%Y, %I:%M:%S %p").lower().replace('am', 'a. m.').replace('pm', 'p. m.')
-      data.update({"timestamp": custom_format })
+      current_time = datetime.now()
+      epoch_timestamp = int(current_time.timestamp())
+      data.update({"timestamp": epoch_timestamp})
       # push: Guarda el objeto en la colección
       new_resource = ref.push(data)
       # Devuelve el id del objeto guardado

@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'nfiallo.pythonanywhere.com',
+    '127.0.0.1'
 ]
 
 
@@ -146,3 +147,5 @@ FIREBASE_CREDENTIALS_PATH = credentials.Certificate("secrets/landing-key.json")
 firebase_admin.initialize_app(FIREBASE_CREDENTIALS_PATH, {
    'databaseURL': 'https://proyecto-kain-landing-page-default-rtdb.firebaseio.com/'
 })
+
+API_URL = 'https://jsonplaceholder.typicode.com/posts'
