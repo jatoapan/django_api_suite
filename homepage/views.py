@@ -8,4 +8,4 @@ def index(request):
     return render(request, 'homepage/index.html')
 
 def dashboard(request):
-    return HttpResponse("¡Bienvenido al dashboard de la aplicación Django!")
+    return HttpResponse("¡Bienvenido al Dashboard!")
