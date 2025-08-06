@@ -10,8 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import firebase_admin
+from firebase_admin import credentials
 from pathlib import Path
 import os
+
+# Coloque la ruta relativa al archivo con la clave privada
+FIREBASE_CREDENTIALS_PATH = credentials.Certificate("secrets/landing-key.json")
+
+# Inicialice la conexión con el Realtime Database con la clave privada y la URL de referencia
+firebase_admin.initialize_app(FIREBASE_CREDENTIALS_PATH, {
+   'databaseURL': 'https://<PROJECT-ID>-default-rtdb.firebaseio.com/'
+})
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +37,7 @@ SECRET_KEY = "django-insecure-u@vl-@#hjagq^jx*dh*s+ii85ryo^m4amm%rv4mi6coov-603%
 DEBUG = True
 
 ALLOWED_HOSTS = ['jatoapan.pythonanywhere.com']
+
 
 # Application definition
 
