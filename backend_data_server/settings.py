@@ -20,7 +20,7 @@ FIREBASE_CREDENTIALS_PATH = credentials.Certificate("secrets/landing-key.json")
 
 # Inicialice la conexión con el Realtime Database con la clave privada y la URL de referencia
 firebase_admin.initialize_app(FIREBASE_CREDENTIALS_PATH, {
-   'databaseURL': 'https://<PROJECT-ID>-default-rtdb.firebaseio.com/'
+   'databaseURL': 'https://proyecto-kain-landing-page-default-rtdb.firebaseio.com/'
 })
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
