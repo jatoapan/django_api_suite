@@ -6,6 +6,3 @@ from django.http import HttpResponse
 def index(request):
     # return HttpResponse("¡Bienvenido a la aplicación Django!")
     return render(request, 'homepage/index.html')
-
-def dashboard(request):
-    return HttpResponse("¡Bienvenido al Dashboard!")
