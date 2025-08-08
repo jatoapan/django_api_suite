@@ -23,33 +23,40 @@ class LandingAPI(APIView):
     def post(self, request):
         data = request.data
 
-        # Validación de la estructura de los datos
         required_fields = {
             "name": str,
             "email": str,
             "address": str,
             "phone": str,
-            "status": str,
-            "topic": str
+            "topic": str,
+            "message": str
         }
 
-        # Verifica que todos los campos obligatorios estén presentes y con el tipo correcto
+        errors = {}
+
+        # Validación de campos obligatorios, tipos y contenido
         for field, field_type in required_fields.items():
-            if field not in data:
-                return Response({"error": f"Field '{field}' is required."}, status=status.HTTP_400_BAD_REQUEST)
-            if not isinstance(data[field], field_type):
-                return Response({"error": f"Field '{field}' must be of type {field_type.__name__}."}, status=status.HTTP_400_BAD_REQUEST)
+            value = data.get(field)
+
+            if value is None:
+                errors[field] = "This field is required."
+            elif not isinstance(value, field_type):
+                errors[field] = f"Must be of type {field_type.__name__}."
+            elif isinstance(value, str) and not value.strip():
+                errors[field] = "This field cannot be empty."
 
         # Verificación de campos adicionales no permitidos
         allowed_fields = set(required_fields.keys())
         extra_fields = set(data.keys()) - allowed_fields
         if extra_fields:
-            return Response({"error": f"Invalid fields: {', '.join(extra_fields)}."}, status=status.HTTP_400_BAD_REQUEST)
+            errors["extra_fields"] = f"Invalid fields: {', '.join(extra_fields)}."
 
-        # Agregar timestamp a los datos
-        current_time = datetime.now()
-        epoch_timestamp = int(current_time.timestamp())
-        data.update({"timestamp": epoch_timestamp})
+        if errors:
+            return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Campos generados automáticamente
+        data["status"] = "new"
+        data["timestamp"] = int(datetime.now().timestamp() * 1000)
 
         # Guardar en Firebase
         ref = db.reference(self.collection_name)
